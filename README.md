@@ -1,7 +1,9 @@
 # EtherView
 Last updated jan 29, 2022.
 
-A work in progress to transform a RaspberryPi into a portable network diagnostic machine.
+Welcome to EtherView!
+
+This is a work in progress to transform a RaspberryPi into a portable network diagnostic machine.
 
 The goal of this project is to make a custom Linux distro to enable basic network diagnostic using a RaspberryPi with a touchscreen.
 I do not know how long I will maintain this project or how many bugs I will fix. I just want it to run.
