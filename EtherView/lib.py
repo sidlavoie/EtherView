@@ -92,17 +92,11 @@ def get_internet_speed(): #Checks connectivity to speedtest.net. Then output the
     return ("Download: %s Mb/s, Upload: %s Mb/s" %(down, up))
 
 
-#For testing purposes only. Will be removed
-interface = input("Entrez l'interface")
+def dhcp_reload(iface):
+    rel = subprocess.getstatusoutput("dhclient -r %s && sudo dhclient %s" %(iface, iface))
 
-ip = get_ip(interface)
-netmask = get_netmask(interface)
-gateway = get_default_gateway()
-speed = get_iface_speed(interface)
-updown = get_ifaceupdown(interface)
+    return rel[1]
 
 
-print("IP: %s, Netmask: %s, Gateway: %s, Speed: %s, Link: %s" % (ip,netmask,gateway,speed,updown))
-ping = ping_host("192.168.0.2", "10")
-print(ping)
+
 
