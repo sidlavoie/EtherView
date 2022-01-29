@@ -43,14 +43,14 @@ def dhcp_reload():
 
 def check_connexion():
     ip_address = "--"
-    netmask = "__"
+    netmask = "--"
     default = "--"
     link = lib.get_ifaceupdown(iface)
-    if link is "Up":
+    if link == "Up":
         ip_address = lib.get_ip(iface)
-    if link is "Up":
+    if link == "Up":
         netmask = lib.get_netmask(iface)
-    if link is "Up":
+    if link == "Up":
         default = lib.get_default_gateway()
 
     out = "Interface: %s\n\nLink: %s\n\nIP Address: %s\n\nNetmask: %s\n\nDefault Gateway: %s" %(iface, link, ip_address, netmask, default)
@@ -64,7 +64,7 @@ root.focus_force()
 root.geometry("800x480")
 # root.attributes("-fullscreen", True) # Uncomment to put fullscreen
 
-ip_info = ttk.Label(root, font=("FreeSans", 20))
+ip_info = ttk.Label(root, font=("FreeSans", 20), padding=10)
 
 ping_button = Button(root, text="Ping", command=do_ping, background="orange red")
 dns_button = Button(root, text="DNS Test", command=check_dns, background="lime green")
