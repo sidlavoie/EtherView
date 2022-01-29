@@ -22,11 +22,12 @@ The main goal would be to run the Pi and screen on a battery, be it a USB power 
 - Check DNS connectivity
 - Test link speed of network interface and internet speed
 - Reload DHCP configuration
+- Basic GUI which shows connectivity
+- App can be forced to fullscreen
 
 ### To be done
 - Enable the user to set a static IP address
-- Create a GUI that can be used with a touchscreen using Tkinter
-- Force the python application to fullscreen
+- Complete the GUI, make it prettier
 - Create a settings menu
 - Create a disk image of a minimal RaspberryPi OS-based distro which runs the python app in a kiosk mode (only app at boot)
 
