@@ -30,6 +30,7 @@ To be done
 
 Nice to have (maybe will be done, but are not the current focus)
 -Clock
+-Find a way to redirect the console output to the GUI (some functions have helper prints)
 -Enable the user to connect to wlan
 -Log data using PyShark
 -See visible hosts on network
