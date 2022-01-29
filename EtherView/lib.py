@@ -61,6 +61,7 @@ def ping_host(host, number):  # Host should be an IP address. Pings a host a num
     number = str(number)
     print("Starting ping. This may take a minute...")
     ping = subprocess.getstatusoutput("ping -c " + number + " " + host)
+    print("Ping done")
 
     return ping[1]
 
