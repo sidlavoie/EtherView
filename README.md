@@ -16,7 +16,7 @@ The hardware will be a RaspberryPi 3 or 4, with the official touchscreen. A cse 
 The main goal would be to run the Pi and screen on a battery, be it a USB power bank, or an integrated lithium battery and charger.
 
 Currently done
--Obtain status of network interface(up/down)
+-Obtain status of network interface(up/down)\n
 -Obtain basic network information (IPv4 address, netmask, default gateway) on a DHCP enabled network.
 -Ping a host using IPv4 address.
 -Check DNS connectivity
