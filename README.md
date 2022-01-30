@@ -28,7 +28,8 @@ The main goal would be to run the Pi and screen on a battery, be it a USB power 
 ### To be done
 - Enable the user to set a static IP address
 - Complete the GUI, make it prettier
-- Create a settings menu
+- Add settings to the menu
+- Create a numpad for the ping interface
 - Create a disk image of a minimal RaspberryPi OS-based distro which runs the python app in a kiosk mode (only app at boot)
 
 ### Nice to have (maybe will be done, but are not the current focus)
@@ -61,5 +62,10 @@ The main goal would be to run the Pi and screen on a battery, be it a USB power 
 - There WILL be some security flaws. It is not intended to be a highly secure device, only a small tool for network enthusiasts. Use it at your own risk.
 - May not work on future Pi models.
   
+### Screenshots
+![Screenshot_20220129_194358](https://user-images.githubusercontent.com/76972727/151682556-e666e63e-2b1c-4ea6-bed7-e4468ed1fccc.png)
+![Screenshot_20220129_194445](https://user-images.githubusercontent.com/76972727/151682559-2246141e-503a-4a5f-9b66-2b5ae3621567.png)
+![Screenshot_20220129_194526](https://user-images.githubusercontent.com/76972727/151682570-76dd9f6f-26c0-4bed-adb9-6fdb842fa4ba.png)
   
 If you support the project or have any questions, feel free to send me an email at lavoiesidney@gmail.com
+
