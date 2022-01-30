@@ -24,17 +24,20 @@ The main goal would be to run the Pi and screen on a battery, be it a USB power 
 - Reload DHCP configuration
 - Basic GUI which shows connectivity
 - App can be forced to fullscreen
+- Pop-ups alert the user if something is wrong
 
 ### To be done
 - Enable the user to set a static IP address
 - Complete the GUI, make it prettier
-- Add settings to the menu
+- Add more settings to the menu
 - Create a numpad for the ping interface
 - Create a disk image of a minimal RaspberryPi OS-based distro which runs the python app in a kiosk mode (only app at boot)
 
 ### Nice to have (maybe will be done, but are not the current focus)
 - Clock
-- Find a way to redirect the console output to the GUI (some functions have helper prints)
+- More interactivity (loading bars, screens)
+- More beautification (icons, images, fonts)
+- Enable the pi to see the public IP address
 - Enable the user to connect to wlan
 - Log data using PyShark
 - See visible hosts on network
@@ -63,9 +66,9 @@ The main goal would be to run the Pi and screen on a battery, be it a USB power 
 - May not work on future Pi models.
   
 ### Screenshots
-![Screenshot_20220129_194358](https://user-images.githubusercontent.com/76972727/151682556-e666e63e-2b1c-4ea6-bed7-e4468ed1fccc.png)
-![Screenshot_20220129_194445](https://user-images.githubusercontent.com/76972727/151682559-2246141e-503a-4a5f-9b66-2b5ae3621567.png)
-![Screenshot_20220129_194526](https://user-images.githubusercontent.com/76972727/151682570-76dd9f6f-26c0-4bed-adb9-6fdb842fa4ba.png)
-  
-If you support the project or have any questions, feel free to send me an email at lavoiesidney@gmail.com
+![Screenshot_20220129_214230](https://user-images.githubusercontent.com/76972727/151684722-a19f0f87-8696-4ad8-b6fe-719e2a470be4.png)
+![Screenshot_20220129_214252](https://user-images.githubusercontent.com/76972727/151684723-55d21d81-355e-40cf-8c46-2435cc41da6b.png)
+![Screenshot_20220129_214339](https://user-images.githubusercontent.com/76972727/151684724-49b405dc-9581-444b-a4d0-b1bf404dfdbc.png)
+![Screenshot_20220129_214422](https://user-images.githubusercontent.com/76972727/151684725-75b443f1-c8f1-4b15-bf93-981241b35425.png)
 
+If you support the project or have any questions, feel free to send me an email at lavoiesidney@gmail.com
