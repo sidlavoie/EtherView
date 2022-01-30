@@ -12,8 +12,8 @@ The upcoming Linux distro will be based on RaspberryPi OS Lite and will launch a
 which will enable connectivity tests without the use of a keyboard.
 
 ### Hardware
-The hardware will be a RaspberryPi 3 or 4, with the official touchscreen. A cse will also be used to improve ruggedness, but is optional.
-The main goal would be to run the Pi and screen on a battery, be it a USB power bank, or an integrated lithium battery and charger.
+The hardware will be a RaspberryPi 3 or 4, with the official touchscreen. A case will also be used to improve ruggedness, but is optional.
+The main goal would be to run the Pi and screen on a battery, be it a USB power bank or an integrated lithium battery and charger.
 
 ### Currently done
 - Obtain status of network interface(up/down)
@@ -25,6 +25,7 @@ The main goal would be to run the Pi and screen on a battery, be it a USB power 
 - Basic GUI which shows connectivity
 - App can be forced to fullscreen
 - Pop-ups alert the user if something is wrong
+- Working progress bar for long requests
 
 ### To be done
 - Enable the user to set a static IP address
@@ -35,7 +36,7 @@ The main goal would be to run the Pi and screen on a battery, be it a USB power 
 
 ### Nice to have (maybe will be done, but are not the current focus)
 - Clock
-- More interactivity (loading bars, screens)
+- More interactivity (screens)
 - More beautification (icons, images, fonts)
 - Enable the pi to see the public IP address
 - Enable the user to connect to wlan
@@ -44,7 +45,7 @@ The main goal would be to run the Pi and screen on a battery, be it a USB power 
 - SSH shell (will need either a virtual or physical keyboard)
 - Reference charts (maybe you network engineers can tell me which references you would like to have)
 - See the DNS server
-- Network performance graph (speed, latency...)
+- Network performance graphs (speed, latency...)
 
 ### Can you do that? (nice ideas that may require extensive modifications of the OS or may not be possible)
 - Log network traffic
@@ -59,8 +60,8 @@ The main goal would be to run the Pi and screen on a battery, be it a USB power 
 
 ### Known limitations
 - Since the interface on the Raspberry is only gigabit, it may not be possible to test faster networks. 
-  It wil work but the speed most likely will show 1 Gb/s (but hey, it's a 180$ network analyser, what did you expect).
-- Since it is using terminal commands and lookup of specific files, it will most likely break one day when a update is performed to RaspberryPi OS. 
+  It will work but the speed most likely will show 1 Gb/s (but hey, it's a 180$ network analyser, what did you expect).
+- Since it is using terminal commands and lookup of specific files (a bit hacky), it will most likely break one day when a update is performed to RaspberryPi OS. 
   But most likely not next week.
 - There WILL be some security flaws. It is not intended to be a highly secure device, only a small tool for network enthusiasts. Use it at your own risk.
 - May not work on future Pi models.
@@ -71,4 +72,4 @@ The main goal would be to run the Pi and screen on a battery, be it a USB power 
 ![Screenshot_20220129_214339](https://user-images.githubusercontent.com/76972727/151684724-49b405dc-9581-444b-a4d0-b1bf404dfdbc.png)
 ![Screenshot_20220129_214422](https://user-images.githubusercontent.com/76972727/151684725-75b443f1-c8f1-4b15-bf93-981241b35425.png)
 
-If you support the project or have any questions, feel free to send me an email at lavoiesidney@gmail.com
+If you want to support the project or have any questions, feel free to send me an email at lavoiesidney@gmail.com
