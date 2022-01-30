@@ -68,6 +68,7 @@ def ping_host(host, number):  # Host should be an IP address. Pings a host a num
 
 def check_dns(host):  # Host should be a domain name. Returns true if the Raspi can access that domain
     print("Checking DNS. May take a minute...")
+    print("Pinging " + host)
     result = subprocess.getstatusoutput("ping -c 1 " + host)
     if result[0] == 0:
         return True
@@ -90,8 +91,9 @@ def get_internet_speed():  # Checks connectivity to speedtest.net. Then output t
     up = inter.upload()
     down = round(down / 1000000, 2)
     up = round(up / 1000000, 2)
+    print("Speedtest done!")
 
-    return ("Download: %s Mb/s, Upload: %s Mb/s" %(down, up))
+    return ("Download: %s Mb/s\nUpload: %s Mb/s" %(down, up))
 
 
 def dhcp_reload(iface):  # Requests a new DHCP lease
