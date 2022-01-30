@@ -1,3 +1,7 @@
+# Copyright 2022 by Sidney Lavoie
+
+# This document holds the functions for the EtherView Project
+
 import socket
 import netifaces
 import struct
