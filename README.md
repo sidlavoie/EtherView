@@ -1,7 +1,7 @@
 # EtherView
 Last updated jan 30, 2022.
 
-## Welcome to EtherView!
+## Welcome to the EtherView project!
 
 This is a project to transform a RaspberryPi into a portable network diagnostic machine.
 
