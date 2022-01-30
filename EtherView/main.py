@@ -1,7 +1,10 @@
+import threading
+
 import lib
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
+import threading
 
 
 defbgn = "#EEf0F1"  # Default background color
@@ -61,6 +64,11 @@ def do_ping():  # INCOMPLETE FOR NOW!!!
     ping_input = ttk.Entry(ping_window)
     ping_display = ttk.Label(ping_window, font="Courier 10", background="#000000", foreground="#FFFFFF", padding=10, anchor="nw")
 
+    def thread_ping():
+        pb.start(15)
+        threading.Thread(target=start_ping).start()
+        return
+
     def start_ping():  # Calls the ping_test in lib
         host = str(ping_input.get())
         if host.isalpha() is False:
@@ -70,8 +78,9 @@ def do_ping():  # INCOMPLETE FOR NOW!!!
             do_ping_button.config(state="normal")
         else:
             messagebox.showwarning("Incorrect IP",  "Please enter a valid IPv4 address (xxx.xxx.xxx.xxx)")
+        pb.stop()
 
-    do_ping_button = ttk.Button(ping_window, command=start_ping, text="Start") # to Replace with keypad
+    do_ping_button = ttk.Button(ping_window, command=thread_ping, text="Start") # to Replace with keypad
     ping_display.place(x=10, y=10, width=590, height=330)
     ping_label.place(x=610, y=10, height=30)
     ping_input.place(x=610, y=45, width=160, height=30)
@@ -84,7 +93,8 @@ def check_dns():  # Animates the button when press and displays info
 
     while response is not True or not False:
         if response is True:
-            messagebox.showinfo("Success", "DNS is connected\n%s is reachable" %(Main.dnshost))
+            messagebox.showinfo("Success", "DNS is connected\n%s is reachable"
+                                % Main.dnshost)
             dns_button.config(state="normal")
             return True
         if response is False:
@@ -111,20 +121,43 @@ def check_connexion():  # Runs every second to update the internet status.
     if link == "Up":
         default = lib.get_default_gateway()
 
-    out = "Interface: %s\n\nLink: %s\n\nLink speed: %s\n\nIP Address: %s\n\nNetmask: %s\n\nDefault Gateway: %s" %(Main.get_iface(), link, link_speed, ip_address, netmask, default)
+    out = "Interface: %s\n\nLink: %s\n\nLink speed: %s\n\n" \
+          "IP Address: %s\n\nNetmask: %s\n\nDefault Gateway: %s" \
+          %(Main.get_iface(), link, link_speed, ip_address, netmask, default)
     ip_info.config(text=out)
     root.after(1000, check_connexion)
 
 
+def test_speed_background():
+    pb.start(15)
+    messagebox.showinfo("Performing Speedtest...", "Operation may take a minute\nPress OK to continue")
+    threading.Thread(target=test_speed).start()
+    return
+
+
 def test_speed():  # Does a Speedtest if the servers are reachable
+
     speed_button.config(state="disabled")
-    messagebox.showinfo("Speedtest", "Performing speedtest...")
+
     result = lib.get_internet_speed()
     if result is False:
         messagebox.showwarning("Failed!", "Could not connect to Speedtest's severs. Please check your connexion and DNS")
+        pb.stop()
     else:
+
         messagebox.showinfo("Speedtest", result)
     speed_button.config(state="normal")
+    pb.stop()
+
+
+def loading():
+    pb.place(x=650, y=390)
+    print("là")
+
+
+def loading_destroy():
+    print("ici")
+    pb.place_forget()
 
 
 Main = MainSettings()
@@ -134,15 +167,17 @@ root.focus_force()
 root.geometry("800x480")
 #root.attributes("-fullscreen", True) # Uncomment to put fullscreen
 
-ip_info = ttk.Label(root, font="Courier 18", padding=10, background="#FFFFFF", relief="sunken")
+ip_info = ttk.Label(root, font=10, padding=10, background="#FFFFFF", relief="sunken")
+
+pb = ttk.Progressbar(root, orient="horizontal", mode="indeterminate")
+pb.place(x=480, y=450, width=300)
 
 ping_button = Button(root, text="Ping", command=do_ping, background="firebrick2")
 dns_button = Button(root, text="DNS test", command=check_dns, background="green3")
 dhcp_button = Button(root, text="Reload DHCP", command=dhcp_reload, background="DeepSkyBlue2")
-speed_button = Button(root, text= "Speed test", command=test_speed, background="darkorange2")
+speed_button = Button(root, text= "Speed test", command=test_speed_background, background="darkorange2")
 settings_button = Button(root, text="Settings", command=Main.settings, background="gold")
 static_button = Button(root, text="Static IP", command="none", background="darkorchid2")
-
 
 first_column = 470
 second_column = 630
