@@ -63,6 +63,16 @@ The main goal would be to run the Pi and screen on a battery, be it a USB power 
 - Since it is using terminal commands and lookup of specific files (a bit hacky), it will most likely break one day when a update is performed to RaspberryPi OS. But most likely not next week.
 - There WILL be some security flaws. It is not intended to be a highly secure device, only a small tool for network enthusiasts. Use it at your own risk.
 - May not work on future Pi models.
+
+### Dependencies
+- socket
+- netifaces
+- struct
+- subprocess
+- speedtest-cli
+- tkinter
+- time
+- threading
   
 ### Screenshots
 ![Screenshot_20220130_112321](https://user-images.githubusercontent.com/76972727/151708011-c2393f9e-93dc-4333-b959-beb668515e1f.png)
