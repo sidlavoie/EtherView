@@ -1,5 +1,5 @@
 # EtherView
-Last updated jan 30, 2022.
+Last updated jan 31, 2022.
 
 ## Welcome to the EtherView project!
 
