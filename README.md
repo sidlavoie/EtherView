@@ -63,6 +63,7 @@ The main goal would be to run the Pi and screen on a battery, be it a USB power 
 - Since it is using terminal commands and lookup of specific files (a bit hacky), it will most likely break one day when a update is performed to RaspberryPi OS. But most likely not next week.
 - There WILL be some security flaws. It is not intended to be a highly secure device, only a small tool for network enthusiasts. Use it at your own risk.
 - May not work on future Pi models.
+- On the Raspberry Pi 3, you might not see internet speeds higher that 200Mb/s. This is due to the speed of the integrated NIC. It should not be an issue on Pi 4 models.
 
 ### Dependencies
 - socket
