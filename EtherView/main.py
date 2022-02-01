@@ -12,7 +12,8 @@ import threading
 
 root = Tk()  # Creates the main window
 defbgn = "#EEf0F1"  # Default background color
-timelbl = Label(root, background="#FFFFFF", relief="sunken", anchor="c", width=10)  # Label for time
+timelbl = Label(root, background="#FFFFFF", relief="sunken", anchor="center", width=10)  # Label for time
+
 
 class MainSettings:
     def __init__(self):
@@ -104,11 +105,17 @@ def do_ping():  # INCOMPLETE FOR NOW!!! Keypad is missing
             messagebox.showwarning("Incorrect IP",  "Please enter a valid IPv4 address (xxx.xxx.xxx.xxx)")
         pb.stop()
 
+    def get_neighbors():
+        result = lib.get_arp_neighbors()
+        ping_display.config(text=result, anchor="nw")
+
     do_ping_button = ttk.Button(ping_window, command=thread_ping, text="Start")  # to Replace with keypad
     ping_display.place(x=10, y=10, width=590, height=330)
-    ping_label.place(x=610, y=10, height=30)
-    ping_input.place(x=610, y=45, width=160, height=30)
-    do_ping_button.place(x=610, y=80)
+    ping_label.place(x=610, y=60, height=30)
+    ping_input.place(x=610, y=85, width=160, height=30)
+    do_ping_button.place(x=610, y=120)
+    arp_button = Button(ping_window, command=get_neighbors, text="Get ARP neighbors")
+    arp_button.place(x=610, y=10)
 
 
 def check_dns():  # Animates the button when press and displays info
@@ -136,6 +143,7 @@ def check_connexion():  # Runs every second to update the internet status.
     ip_address = "--"
     netmask = "--"
     default = "--"
+    public = "--"
     link = lib.get_ifaceupdown(Main.get_iface())
     link_speed = lib.get_iface_speed(Main.get_iface())
     if link == "Up":
@@ -144,10 +152,12 @@ def check_connexion():  # Runs every second to update the internet status.
         netmask = lib.get_netmask(Main.get_iface())
     if link == "Up":
         default = lib.get_default_gateway()
+    if link == "Up":
+        public = lib.get_public_ip()
 
     out = "Interface: %s\n\nLink: %s\n\nLink speed: %s\n\n" \
-          "IP Address: %s\n\nNetmask: %s\n\nDefault Gateway: %s" \
-          % (Main.get_iface(), link, link_speed, ip_address, netmask, default)
+          "IP Address: %s\n\nNetmask: %s\n\nDefault Gateway: %s\n\nPublic IP: %s" \
+          % (Main.get_iface(), link, link_speed, ip_address, netmask, default, public)
     ip_info.config(text=out)
     if link == "Up":
         connect_lbl.config(text="Connected")
@@ -157,7 +167,7 @@ def check_connexion():  # Runs every second to update the internet status.
     root.after(1000, check_connexion)
 
 
-def test_speed_background():
+def test_speed_background():  # Starts in a second thread to enable the loading bar
     pb.start(15)
     messagebox.showinfo("Performing Speedtest...", "Operation may take a minute\nPress OK to continue")
     threading.Thread(target=test_speed).start()
@@ -180,13 +190,39 @@ def test_speed():  # Does a Speedtest if the servers are reachable
     pb.stop()
 
 
+def iperf_do():  # Opens an iperf3 client
+    print("Opening iperf3...")
+    iperf_window = Toplevel(height=350, width=800)
+    iperf_window.title("iperf3")
+    iperf_window.focus_get()
+    # for i in ["7", "8", "9", "4", "5", "6", "1", "2", "3", ".", "0", "Enter"]:
+    iperf_label = ttk.Label(iperf_window, text="Enter iperf3 server", background=defbgn)
+    iperf_input = ttk.Entry(iperf_window)
+    iperf_display = ttk.Label(iperf_window, font="Courier 10", background="#000000",
+                             foreground="#FFFFFF", padding=10, anchor="nw")
+
+    def thread_iperf():
+        threading.Thread(target=start_iperf).start()
+        return
+
+    def start_iperf():  # Calls the iperf in lib
+        iperf_display.config(text="Doing iperf3 test. Operation may take several minutes...\nPlease do not close this window")
+        host = str(iperf_input.get())
+        result = lib.iperf_client(host)
+        iperf_display.config(text=result)
+
+    do_iperf_button = ttk.Button(iperf_window, command=thread_iperf, text="Start")  # to Replace with keypad
+    iperf_display.place(x=10, y=10, width=590, height=330)
+    iperf_label.place(x=610, y=60, height=30)
+    iperf_input.place(x=610, y=85, width=160, height=30)
+    do_iperf_button.place(x=610, y=120)
+
+
 def loading():
     pb.place(x=650, y=390)
-    print("là")
 
 
 def loading_destroy():
-    print("ici")
     pb.place_forget()
 
 
@@ -203,15 +239,16 @@ time()
 pb = ttk.Progressbar(root, orient="horizontal", mode="indeterminate")
 pb.place(x=465, y=453, width=240)
 timelbl.place(x=710, y=450)
-connect_lbl = ttk.Label(root, background="#FFFFFF", relief="sunken", anchor="c")
+connect_lbl = ttk.Label(root, background="#FFFFFF", relief="sunken", anchor="center")
 connect_lbl.place(x=360, y=450, width=100, height=25)
 # Other screen widgets
 ping_button = Button(root, text="Ping", command=do_ping, background="firebrick2")
 dns_button = Button(root, text="DNS test", command=check_dns, background="green3")
 dhcp_button = Button(root, text="Reload DHCP", command=dhcp_reload, background="DeepSkyBlue2")
-speed_button = Button(root, text="Speed test", command=test_speed_background, background="darkorange2")
-settings_button = Button(root, text="Settings", command=Main.settings, background="gold")
+speed_button = Button(root, text="Ookla Speedtest", command=test_speed_background, background="darkorange2")
+settings_button = Button(root, text="Settings", command=Main.settings, background="light gray")
 static_button = Button(root, text="Static IP", command="none", background="darkorchid2")
+iperf_button = Button(root, text="iperf3", command=iperf_do, background="gold")
 
 first_column = 470
 second_column = 630
@@ -220,9 +257,10 @@ ip_info.place(x=10, y=10, width=440, height=320)
 ping_button.place(x=first_column, y=10, width=150, height=100)
 dns_button.place(x=second_column, y=10, width=150, height=100)
 dhcp_button.place(x=first_column, y=120, width=150, height=100)
-speed_button.place(x=second_column, y=120, width=150, height=100)
-settings_button.place(x=first_column, y=230, width=150, height=100)
-static_button.place(x=second_column, y=230, width=150, height=100)
+speed_button.place(x=second_column, y=230, width=150, height=100)
+settings_button.place(x=first_column, y=340, width=150, height=100)
+static_button.place(x=second_column, y=120, width=150, height=100)
+iperf_button.place(x=first_column, y=230, width=150, height=100)
 
 check_connexion()
 root.mainloop()

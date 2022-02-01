@@ -7,6 +7,7 @@ import netifaces
 import struct
 import subprocess
 import speedtest
+import urllib.request
 
 
 def get_ip(iface):  # Gets the Raspi's IPv4 address
@@ -107,5 +108,17 @@ def dhcp_reload(iface):  # Requests a new DHCP lease
     return rel[1]
 
 
+def get_arp_neighbors():
+    arp = subprocess.getstatusoutput("arp -ev")
+    return arp[1]
 
+
+def get_public_ip():
+    public = urllib.request.urlopen("https://ident.me").read().decode("utf8")
+    return public
+
+
+def iperf_client(host):
+    response = subprocess.getstatusoutput("iperf3 -c " + host)
+    return response
 
