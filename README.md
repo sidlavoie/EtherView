@@ -12,7 +12,7 @@ The upcoming Linux distro will be based on RaspberryPi OS Lite and will launch a
 which will enable connectivity tests without the use of a keyboard.
 
 This program can be used on any Linux machine, but not on MacOS or Windows. There will be no ports to these systems, 
-since the application is designed to work on a Raspberry Pi running Linux. If you want to use it, go to line 20 and change "bond0" 
+since the application is designed to work on a Raspberry Pi running Linux. If you want to use it, go to line 21 and change "bond0" 
 to whatever your network interface is. This will be set to eth0 (the Pi's wired interface) in the final release.
 
 ### Hardware
