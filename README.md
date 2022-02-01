@@ -11,18 +11,23 @@ I do not know how long I will maintain this project or how many bugs I will fix.
 The upcoming Linux distro will be based on RaspberryPi OS Lite and will launch a custom python application 
 which will enable connectivity tests without the use of a keyboard.
 
+This program can be used on any Linux machine, but not on MacOS or Windows. There will be no ports to these systems, 
+since the application is designed to work on a Raspberry Pi running Linux. If you want to use it, go to line 20 and change "bond0" 
+to whatever your network interface is. This will be set to eth0 (the Pi's wired interface) in the final release.
+
 ### Hardware
 The hardware will be a RaspberryPi 3 or 4, with the official touchscreen. A case will also be used to improve ruggedness, but is optional.
 The main goal would be to run the Pi and screen on a battery, be it a USB power bank or an integrated lithium battery and charger.
 
 ### Currently done
+- Full GUI interface
 - Obtain status of network interface(up/down)
 - Obtain basic network information (IPv4 address, netmask, default gateway) on a DHCP enabled network.
 - Ping a host using IPv4 address.
 - Check DNS connectivity
-- Test link speed of network interface and internet speed
+- Test link speed of network interface and internet speed using Ookla's Speedtest
+- Can connect to iperf3 servers and do a speed test
 - Reload DHCP configuration
-- Basic GUI which shows connectivity
 - App can be forced to fullscreen
 - Pop-ups alert the user if something is wrong
 - Working progress bar for long requests
@@ -33,7 +38,6 @@ The main goal would be to run the Pi and screen on a battery, be it a USB power 
 - Enable the user to set a static IP address
 - Create a numpad for the ping interface
 - Create a disk image of a minimal RaspberryPi OS-based distro which runs the python app in a kiosk mode (only app at boot)
-- Enable the raspberry pi to run as an IPerf server
 
 ### Nice to have (maybe will be done, but are not the current focus)
 - Make settings persistent between reboots
@@ -42,7 +46,6 @@ The main goal would be to run the Pi and screen on a battery, be it a USB power 
 - Enable the pi to see the public IP address
 - Enable the user to connect to wlan
 - Log data using PyShark
-- See visible hosts on network
 - Reference charts (maybe you network engineers can tell me which references you would like to have)
 - Network performance graphs (speed, latency...)
 
@@ -67,6 +70,7 @@ The main goal would be to run the Pi and screen on a battery, be it a USB power 
 - On the Raspberry Pi 3, you might not see internet speeds higher that 200Mb/s. This is due to the speed of the integrated NIC. It should go all the way to 1 Gb/s on Pi 4 models.
 
 ### Dependencies
+#### Python
 - socket
 - netifaces
 - struct
@@ -75,11 +79,14 @@ The main goal would be to run the Pi and screen on a battery, be it a USB power 
 - tkinter
 - time
 - threading
-  
+
+#### Linux
+- iperf3
+
 ### Screenshots
-![Screenshot_20220130_112321](https://user-images.githubusercontent.com/76972727/151708011-c2393f9e-93dc-4333-b959-beb668515e1f.png)
-![Screenshot_20220130_112341](https://user-images.githubusercontent.com/76972727/151708012-71127d59-1efa-4792-9bc7-33fa156a3ecd.png)
-![Screenshot_20220130_112413](https://user-images.githubusercontent.com/76972727/151708013-1047f1a5-5f26-473e-98e1-2bf2fc230053.png)
-![Screenshot_20220130_112524](https://user-images.githubusercontent.com/76972727/151708014-1b6e847b-3ad3-4556-afcf-78a89e3a6efb.png)
+![Screenshot_20220131_200048](https://user-images.githubusercontent.com/76972727/151898156-7d86c1b1-c0a8-44a6-b55f-056ca4cbb55c.png)
+![Screenshot_20220131_200142](https://user-images.githubusercontent.com/76972727/151898160-3eb3ebaf-c17f-46c1-9f9c-7afd95c7d27a.png)
+![Screenshot_20220131_200202](https://user-images.githubusercontent.com/76972727/151898161-90983a9b-33d5-4613-a603-e7ccc88a7543.png)
+![Screenshot_20220131_200249](https://user-images.githubusercontent.com/76972727/151898164-3a8dec54-2e00-4c95-bc74-64f729dee39e.png)
 
 If you want to support the project or have any questions, feel free to send me an email at lavoiesidney@gmail.com
