@@ -1,5 +1,5 @@
 # EtherView
-Last updated jan 31, 2022.
+Last updated feb 01, 2022.
 
 ## Welcome to the EtherView project!
 
@@ -50,7 +50,6 @@ The main goal would be to run the Pi and screen on a battery, be it a USB power 
 - Network performance graphs (speed, latency...)
 
 ### Can you do that? (nice ideas that may require extensive modifications of the OS or may not be possible)
-- SSH shell (will need either a virtual or physical keyboard)
 - Log network traffic
 - View VLANS
 - View and connect to domains
@@ -58,8 +57,6 @@ The main goal would be to run the Pi and screen on a battery, be it a USB power 
 - Check cable length
 - Check cable wiring (maybe using a USB ethernet dongle or the GPIO pins)
 - Serial port
-- Remote wifi connection to a cellphone to enable wireless control.
-- TeamViewer integration?
 
 ### Known limitations
 - Since the interface on the Raspberry is only gigabit, it may not be possible to test faster networks. 
