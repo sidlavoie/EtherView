@@ -22,7 +22,7 @@ The main goal would be to run the Pi and screen on a battery, be it a USB power 
 ### Currently done
 - Full GUI interface
 - Obtain status of network interface(up/down)
-- Obtain basic network information (IPv4 address, netmask, default gateway) on a DHCP enabled network.
+- Obtain basic network information (IPv4 address, netmask, default gateway, public IP) on a DHCP enabled network.
 - Ping a host using IPv4 address.
 - Check DNS connectivity
 - Test link speed of network interface and internet speed using Ookla's Speedtest
@@ -43,17 +43,13 @@ The main goal would be to run the Pi and screen on a battery, be it a USB power 
 - Make settings persistent between reboots
 - More interactivity (screens)
 - More beautification (icons, images, fonts)
-- Enable the pi to see the public IP address
 - Enable the user to connect to wlan
 - Log data using PyShark
-- Reference charts (maybe you network engineers can tell me which references you would like to have)
 - Network performance graphs (speed, latency...)
 
 ### Can you do that? (nice ideas that may require extensive modifications of the OS or may not be possible)
 - Log network traffic
 - View VLANS
-- View and connect to domains
-- View control packets
 - Check cable length
 - Check cable wiring (maybe using a USB ethernet dongle or the GPIO pins)
 - Serial port
