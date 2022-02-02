@@ -19,11 +19,11 @@ timelbl = Label(root, background="#FFFFFF", relief="sunken", anchor="center", wi
 class MainSettings:
     def __init__(self):
         self.dnshost = "google.com"
-        self.iface = "eth0"  # Change the interface to fit the NIC on your system
+        self.iface = "bond0"  # Change the interface to fit the NIC on your system
         self.ping_num = 4
 
     def settings(self):  # Settings window
-        settings_window = Toplevel(height=300, width=200)
+        settings_window = Toplevel(height=400, width=200)
         settings_window.title("Settings")
 
         def set_eth():
@@ -65,6 +65,10 @@ class MainSettings:
 
         close_settings_button = Button(settings_window, command=settings_window.destroy, text="X", background="red")
         close_settings_button.place(x=165, y=5, height=30, width=30)
+
+        # Change this every version!
+        about_label = Label(settings_window, text="About:\nEtherView v0.7.1\nCopyright 2022 Sidney Lavoie", anchor="center")
+        about_label.place(x=5, y=320)
 
     def get_ping_num(self):
         return self.ping_num
