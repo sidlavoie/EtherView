@@ -9,6 +9,7 @@ from tkinter import ttk
 from tkinter import messagebox
 from time import strftime
 import threading
+import subprocess
 
 root = Tk()  # Creates the main window
 defbgn = "#EEf0F1"  # Default background color
@@ -18,7 +19,7 @@ timelbl = Label(root, background="#FFFFFF", relief="sunken", anchor="center", wi
 class MainSettings:
     def __init__(self):
         self.dnshost = "google.com"
-        self.iface = "bond0"  # Will be later eth0 when on the raspberrypi
+        self.iface = "eth0"  # Change the interface to fit the NIC on your system
         self.ping_num = 4
 
     def settings(self):  # Settings window
@@ -61,6 +62,9 @@ class MainSettings:
 
         ping_num_button.place(x=10, y=170)
         ping_num_entry.place(x=10, y=210, width=160, height=30)
+
+        close_settings_button = Button(settings_window, command=settings_window.destroy, text="X", background="red")
+        close_settings_button.place(x=165, y=5, height=30, width=30)
 
     def get_ping_num(self):
         return self.ping_num
@@ -109,13 +113,21 @@ def do_ping():  # INCOMPLETE FOR NOW!!! Keypad is missing
         result = lib.get_arp_neighbors()
         ping_display.config(text=result, anchor="nw")
 
+    def public_ip():
+        result = lib.get_public_ip()
+        ping_display.config(text="Public IP: " + result)
+
+    public_button = Button(ping_window, command=public_ip, text="Show Public IP")
     do_ping_button = ttk.Button(ping_window, command=thread_ping, text="Start")  # to Replace with keypad
     ping_display.place(x=10, y=10, width=590, height=330)
-    ping_label.place(x=610, y=60, height=30)
-    ping_input.place(x=610, y=85, width=160, height=30)
-    do_ping_button.place(x=610, y=120)
+    ping_label.place(x=610, y=80, height=30)
+    ping_input.place(x=610, y=105, width=160, height=30)
+    do_ping_button.place(x=610, y=140)
+    public_button.place(x=610, y=10)
     arp_button = Button(ping_window, command=get_neighbors, text="Get ARP neighbors")
-    arp_button.place(x=610, y=10)
+    arp_button.place(x=610, y=50)
+    close_ping_button = Button(ping_window, command=ping_window.destroy, text="X", background="red")
+    close_ping_button.place(x=765, y=5, height=30, width=30)
 
 
 def check_dns():  # Animates the button when press and displays info
@@ -143,21 +155,19 @@ def check_connexion():  # Runs every second to update the internet status.
     ip_address = "--"
     netmask = "--"
     default = "--"
-    public = "--"
     link = lib.get_ifaceupdown(Main.get_iface())
     link_speed = lib.get_iface_speed(Main.get_iface())
+
     if link == "Up":
         ip_address = lib.get_ip(Main.get_iface())
     if link == "Up":
         netmask = lib.get_netmask(Main.get_iface())
     if link == "Up":
         default = lib.get_default_gateway()
-    if link == "Up":
-        public = lib.get_public_ip()
 
     out = "Interface: %s\n\nLink: %s\n\nLink speed: %s\n\n" \
-          "IP Address: %s\n\nNetmask: %s\n\nDefault Gateway: %s\n\nPublic IP: %s" \
-          % (Main.get_iface(), link, link_speed, ip_address, netmask, default, public)
+          "IP Address: %s\n\nNetmask: %s\n\nDefault Gateway: %s" \
+          % (Main.get_iface(), link, link_speed, ip_address, netmask, default)
     ip_info.config(text=out)
     if link == "Up":
         connect_lbl.config(text="Connected")
@@ -199,7 +209,7 @@ def iperf_do():  # Opens an iperf3 client
     iperf_label = ttk.Label(iperf_window, text="Enter iperf3 server", background=defbgn)
     iperf_input = ttk.Entry(iperf_window)
     iperf_display = ttk.Label(iperf_window, font="Courier 10", background="#000000",
-                             foreground="#FFFFFF", padding=10, anchor="nw")
+                            foreground="#FFFFFF", padding=10, anchor="nw")
 
     def thread_iperf():
         threading.Thread(target=start_iperf).start()
@@ -216,6 +226,8 @@ def iperf_do():  # Opens an iperf3 client
     iperf_label.place(x=610, y=60, height=30)
     iperf_input.place(x=610, y=85, width=160, height=30)
     do_iperf_button.place(x=610, y=120)
+    close_iperf_button = Button(iperf_window, command=iperf_window.destroy, text="X", background="red")
+    close_iperf_button.place(x=765, y=5, height=30, width=30)
 
 
 def loading():
@@ -231,7 +243,7 @@ Main = MainSettings()
 root.title("EtherView Analyzer")
 root.focus_force()
 root.geometry("800x480")
-# root.attributes("-fullscreen", True) # Uncomment to put fullscreen
+root.attributes("-fullscreen", True) # Uncomment to put fullscreen
 
 ip_info = ttk.Label(root, font=10, padding=10, background="#FFFFFF", relief="sunken")
 # Bottom of screen

@@ -64,16 +64,12 @@ def get_ifaceupdown(iface):  # Gets the status of the internet interface
 
 def ping_host(host, number):  # Host should be an IP address. Pings a host a number of time and gets the output
     number = str(number)
-    print("Starting ping. This may take a minute...")
     ping = subprocess.getstatusoutput("ping -c " + number + " " + host)
-    print("Ping done")
 
     return ping[1]
 
 
 def check_dns(host):  # Host should be a domain name. Returns true if the Raspi can access that domain
-    print("Checking DNS. May take a minute...")
-    print("Pinging " + host)
     result = subprocess.getstatusoutput("ping -c 1 " + host)
     if result[0] == 0:
         return True
@@ -85,25 +81,25 @@ def check_dns(host):  # Host should be a domain name. Returns true if the Raspi 
 def get_internet_speed():  # Checks connectivity to speedtest.net. Then output the upload and download speed in a string
     result = subprocess.getstatusoutput("ping -c 2 speedtest.net")
     if result[0] != 0:
-        print("Could not connect. Retrying...")
+        # print("Could not connect. Retrying...")
         result = subprocess.getstatusoutput("ping -c 2 speedtest.net")
         if result[0] != 0:
             return False
 
-    print("Performing speedtest...")
+    # print("Performing speedtest...")
     inter = speedtest.Speedtest()
     down = inter.download()
     up = inter.upload()
     down = round(down / 1000000, 2)
     up = round(up / 1000000, 2)
-    print("Speedtest done!")
+    # print("Speedtest done!")
 
     return ("Download: %s Mb/s\nUpload: %s Mb/s" %(down, up))
 
 
 def dhcp_reload(iface):  # Requests a new DHCP lease
     rel = subprocess.getstatusoutput("dhclient -r %s && sudo dhclient %s" %(iface, iface))
-    print("Reloading dhcp...")
+    # print("Reloading dhcp...")
 
     return rel[1]
 
