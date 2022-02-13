@@ -1,5 +1,5 @@
 # EtherView
-Last updated feb 01, 2022.
+Last updated feb 13, 2022.
 
 ## Welcome to the EtherView project!
 
@@ -35,8 +35,7 @@ The main goal would be to run the Pi and screen on a battery, be it a USB power 
 - Basic settings menu (for interface, number of ping and host to check DNS)
 
 ### To be done
-- Enable the user to set a static IP address
-- Create a numpad for the ping interface
+- Enable the user to set a static IP address (close but not quite there yet)
 - Create a disk image of a minimal RaspberryPi OS-based distro which runs the python app in a kiosk mode (only app at boot)
 
 ### Nice to have (maybe will be done, but are not the current focus)
@@ -72,6 +71,7 @@ The main goal would be to run the Pi and screen on a battery, be it a USB power 
 - tkinter
 - time
 - threading
+- os
 
 #### Linux
 - iperf3
