@@ -8,6 +8,7 @@ import struct
 import subprocess
 import speedtest
 import urllib.request
+import os
 
 
 def get_ip(iface):  # Gets the Raspi's IPv4 address
@@ -94,11 +95,11 @@ def get_internet_speed():  # Checks connectivity to speedtest.net. Then output t
     up = round(up / 1000000, 2)
     # print("Speedtest done!")
 
-    return ("Download: %s Mb/s\nUpload: %s Mb/s" %(down, up))
+    return ("Download: %s Mb/s\nUpload: %s Mb/s" % (down, up))
 
 
 def dhcp_reload(iface):  # Requests a new DHCP lease
-    rel = subprocess.getstatusoutput("dhclient -r %s && sudo dhclient %s" %(iface, iface))
+    rel = subprocess.getstatusoutput("dhclient -r %s && sudo dhclient %s" % (iface, iface))
     # print("Reloading dhcp...")
 
     return rel[1]
@@ -118,3 +119,18 @@ def iperf_client(host):
     response = subprocess.getstatusoutput("iperf3 -c " + host)
     return response
 
+
+def change_ip(interface, ip, mask, gateway, dns):
+    oldfile = open("/etc/dhcpcd.conf", "r")
+    data = str(oldfile.readline())
+    oldfile.close()
+    change = str("\ninterface " + interface + "\nstatic ip_address=" + ip + mask +
+                 "\nstatic routers=" + gateway + "\nstatic domain_name_servers=" + dns)
+    file = open("dhcpcd.conf", "a")
+    file.truncate(0)
+    file.write(data)
+    file.write(change)
+    file.close()
+
+    os.system("sudo mv dhcpcd.conf /etc")
+    os.system("sudo service dhcpd restart")

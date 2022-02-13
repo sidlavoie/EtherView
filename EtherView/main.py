@@ -4,6 +4,7 @@
 # It controls the display and fetches the functions from lib.py
 
 import lib
+import Numpad
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
@@ -19,11 +20,11 @@ timelbl = Label(root, background="#FFFFFF", relief="sunken", anchor="center", wi
 class MainSettings:
     def __init__(self):
         self.dnshost = "google.com"
-        self.iface = "bond0"  # Change the interface to fit the NIC on your system
+        self.iface = "eth0"  # Change the interface to fit the NIC on your system
         self.ping_num = 4
 
     def settings(self):  # Settings window
-        settings_window = Toplevel(height=400, width=200)
+        settings_window = Toplevel(height=400, width=220)
         settings_window.title("Settings")
 
         def set_eth():
@@ -45,9 +46,8 @@ class MainSettings:
         def set_default_dnshost():
             self.dnshost = default_dns_input.get()
             default_dns_input.delete(0, "end")
-
         default_dns_button = ttk.Button(settings_window, width=14, text="Set DNS", command=set_default_dnshost)
-        default_dns_input = ttk.Entry(settings_window)
+        default_dns_input = ttk.Entry(settings_window, background="#ffffff")
 
         default_dns_button.place(x=10, y=70)
         default_dns_input.place(x=10, y=110, width=160, height=30)
@@ -56,18 +56,18 @@ class MainSettings:
         def set_ping_num():
             self.ping_num = ping_num_entry.get()
             ping_num_entry.delete(0, "end")
-
+        ping_num_var = StringVar()
         ping_num_button = Button(settings_window, width=14, text="Set ping number", command=set_ping_num)
-        ping_num_entry = Entry(settings_window)
+        ping_num_entry = Numpad.NumpadEntry(settings_window, textvariable=ping_num_var, background="#ffffff")
 
         ping_num_button.place(x=10, y=170)
         ping_num_entry.place(x=10, y=210, width=160, height=30)
 
         close_settings_button = Button(settings_window, command=settings_window.destroy, text="X", background="red")
-        close_settings_button.place(x=165, y=5, height=30, width=30)
+        close_settings_button.place(x=185, y=5, height=30, width=30)
 
         # Change this every version!
-        about_label = Label(settings_window, text="About:\nEtherView v0.7.1\nCopyright 2022 Sidney Lavoie", anchor="center")
+        about_label = Label(settings_window, text="About:\nEtherView v0.7.5\nCopyright 2022 Sidney Lavoie", anchor="center")
         about_label.place(x=5, y=320)
 
     def get_ping_num(self):
@@ -92,8 +92,9 @@ def do_ping():  # INCOMPLETE FOR NOW!!! Keypad is missing
     ping_window.title("Ping")
     ping_window.focus_get()
     # for i in ["7", "8", "9", "4", "5", "6", "1", "2", "3", ".", "0", "Enter"]:
+    ping_var = StringVar()
     ping_label = ttk.Label(ping_window, text="Enter host to ping", background=defbgn)
-    ping_input = ttk.Entry(ping_window)
+    ping_input = Numpad.NumpadEntry(ping_window, textvariable=ping_var)
     ping_display = ttk.Label(ping_window, font="Courier 10", background="#000000",
                              foreground="#FFFFFF", padding=10, anchor="nw")
 
@@ -209,9 +210,9 @@ def iperf_do():  # Opens an iperf3 client
     iperf_window = Toplevel(height=350, width=800)
     iperf_window.title("iperf3")
     iperf_window.focus_get()
-    # for i in ["7", "8", "9", "4", "5", "6", "1", "2", "3", ".", "0", "Enter"]:
-    iperf_label = ttk.Label(iperf_window, text="Enter iperf3 server", background=defbgn)
-    iperf_input = ttk.Entry(iperf_window)
+    iperf_var = StringVar()
+    iperf_label = ttk.Label(iperf_window, text="Enter iperf3 server")
+    iperf_input = Numpad.NumpadEntry(iperf_window, textvariable=iperf_var, background="#ffffff")
     iperf_display = ttk.Label(iperf_window, font="Courier 10", background="#000000",
                             foreground="#FFFFFF", padding=10, anchor="nw")
 
@@ -242,6 +243,59 @@ def loading_destroy():
     pb.place_forget()
 
 
+def static_ip():  # Enables setting a static IP address
+    static_window = Toplevel(height=350, width=800)
+    static_window.title("Static IP")
+    static_window.focus_get()
+
+    def change_ip():
+        ip = ip_input.get()
+        netmask = net_input.get()
+        gateway = gateway_input.get()
+        dns = static_dns_input.get()
+        if len(netmask) > 2:
+            messagebox.showerror("Invalid mask!", "Mask must be in CIDR notation (/xx)!")
+        elif netmask[0] != "/" and len(netmask) < 3:
+            netmask = "/" + netmask
+            lib.change_ip(Main.iface, ip, netmask, gateway, dns)
+        else:
+            lib.change_ip(Main.iface, ip, netmask, gateway, dns)
+
+        ip_input.delete(0, "end")
+        net_input.delete(0, "end")
+        gateway_input.delete(0, "end")
+        static_dns_input.delete(0, "end")
+
+    ip_var = StringVar()
+    netmask_var = StringVar()
+    gateway_var = StringVar()
+    static_dns_var = StringVar()
+    ip_label = ttk.Label(static_window, text="IPv4 Address")
+    ip_input = Numpad.NumpadEntry(static_window, textvariable=ip_var, background="#ffffff")
+    netmask_label = ttk.Label(static_window, text="Subnet Mask")
+    net_input = Numpad.NumpadEntry(static_window, textvariable=netmask_var, background="#ffffff")
+    gateway_label = ttk.Label(static_window, text="Default Gateway")
+    gateway_input = Numpad.NumpadEntry(static_window, textvariable=gateway_var, background="#ffffff")
+    static_dns_label = ttk.Label(static_window, text="Preferred DNS")
+    static_dns_input = Numpad.NumpadEntry(static_window, textvariable=static_dns_var, background="#ffffff")
+
+    testbutton = ttk.Button(static_window, text="Change IP", command=change_ip)
+
+    ip_label.place(x=300, y=30, height=30)
+    ip_input.place(x=300, y=60, width=160, height=30)
+    netmask_label.place(x=300, y=100, height=30)
+    net_input.place(x=300, y=130, width=160, height=30)
+    gateway_label.place(x=300, y=170, height=30)
+    gateway_input.place(x=300, y=200, width=160, height=30)
+    static_dns_label.place(x=300, y=240, height=30)
+    static_dns_input.place(x=300, y=270, width=160, height=30)
+
+    testbutton.place(x=500, y=100)  # To be replaced
+
+    close_static_button = Button(static_window, command=static_window.destroy, text="X", background="red")
+    close_static_button.place(x=765, y=5, height=30, width=30)
+
+
 Main = MainSettings()
 
 root.title("EtherView Analyzer")
@@ -263,7 +317,7 @@ dns_button = Button(root, text="DNS test", command=check_dns, background="green3
 dhcp_button = Button(root, text="Reload DHCP", command=dhcp_reload, background="DeepSkyBlue2")
 speed_button = Button(root, text="Ookla Speedtest", command=test_speed_background, background="darkorange2")
 settings_button = Button(root, text="Settings", command=Main.settings, background="light gray")
-static_button = Button(root, text="Static IP", command="none", background="darkorchid2")
+static_button = Button(root, text="Static IP", command=static_ip, background="darkorchid2")
 iperf_button = Button(root, text="iperf3", command=iperf_do, background="gold")
 
 first_column = 470
