@@ -1,5 +1,5 @@
 # EtherView
-Last updated feb 13, 2022.
+Last updated feb 15, 2022.
 
 ## Welcome to the EtherView project!
 
@@ -33,10 +33,15 @@ The main goal would be to run the Pi and screen on a battery, be it a USB power 
 - Working progress bar for long requests
 - Clock
 - Basic settings menu (for interface, number of ping and host to check DNS)
+- Static IP
 
 ### To be done
-- Enable the user to set a static IP address (close but not quite there yet)
+- Enable user to revert back to DHCP (close, but not done yet)
+- Fix misc bugs that prevent x server to start in early tests of OS
+- Fix bug that prevents x server to start if the NIC is not connected
+- Fix bug where restart button will not start x server
 - Create a disk image of a minimal RaspberryPi OS-based distro which runs the python app in a kiosk mode (only app at boot)
+- Wait for a fix on hardware bug with the official touchscreen
 
 ### Nice to have (maybe will be done, but are not the current focus)
 - Make settings persistent between reboots
@@ -75,6 +80,7 @@ The main goal would be to run the Pi and screen on a battery, be it a USB power 
 
 #### Linux
 - iperf3
+- ethtools
 
 ### Screenshots
 ![Screenshot_20220131_200048](https://user-images.githubusercontent.com/76972727/151898156-7d86c1b1-c0a8-44a6-b55f-056ca4cbb55c.png)
