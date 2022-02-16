@@ -15,7 +15,7 @@ import subprocess
 root = Tk()  # Creates the main window
 defbgn = "#EEf0F1"  # Default background color
 timelbl = Label(root, background="#FFFFFF", relief="sunken", anchor="center", width=10)  # Label for time
-
+dhcp_status = "DHCP"
 
 class MainSettings:
     def __init__(self):
@@ -63,11 +63,16 @@ class MainSettings:
         ping_num_button.place(x=10, y=170)
         ping_num_entry.place(x=10, y=210, width=160, height=30)
 
+        def pi_reboot():
+            subprocess.getstatusoutput("sudo reboot")
+
+        reboot_button = Button(settings_window, command=pi_reboot, text="Reboot", background="yellow")
+        reboot_button.place(x=10, y=250)
         close_settings_button = Button(settings_window, command=settings_window.destroy, text="X", background="red")
         close_settings_button.place(x=185, y=5, height=30, width=30)
 
         # Change this every version!
-        about_label = Label(settings_window, text="About:\nEtherView v0.7.5\nCopyright 2022 Sidney Lavoie", anchor="center")
+        about_label = Label(settings_window, text="About:\nEtherView v0.7.6\nCopyright 2022 Sidney Lavoie", anchor="center")
         about_label.place(x=5, y=320)
 
     def get_ping_num(self):
@@ -91,9 +96,8 @@ def do_ping():  # INCOMPLETE FOR NOW!!! Keypad is missing
     ping_window = Toplevel(height=350, width=800)
     ping_window.title("Ping")
     ping_window.focus_get()
-    # for i in ["7", "8", "9", "4", "5", "6", "1", "2", "3", ".", "0", "Enter"]:
     ping_var = StringVar()
-    ping_label = ttk.Label(ping_window, text="Enter host to ping", background=defbgn)
+    ping_label = ttk.Label(ping_window, text="Enter host to ping")
     ping_input = Numpad.NumpadEntry(ping_window, textvariable=ping_var)
     ping_display = ttk.Label(ping_window, font="Courier 10", background="#000000",
                              foreground="#FFFFFF", padding=10, anchor="nw")
@@ -106,6 +110,7 @@ def do_ping():  # INCOMPLETE FOR NOW!!! Keypad is missing
     def start_ping():  # Calls the ping_test in lib
         host = str(ping_input.get())
         if host.isalpha() is False:
+            ping_display.config(text="Pinging host...")
             do_ping_button.config(state="disabled")
             result = lib.ping_host(host, Main.get_ping_num())
             ping_display.config(text=result)
@@ -280,6 +285,7 @@ def static_ip():  # Enables setting a static IP address
     static_dns_input = Numpad.NumpadEntry(static_window, textvariable=static_dns_var, background="#ffffff")
 
     testbutton = ttk.Button(static_window, text="Change IP", command=change_ip)
+    reload_dhcp_button = ttk.Button(static_window, text="Use DHCP", command=lib.restore_dhcp)
 
     ip_label.place(x=300, y=30, height=30)
     ip_input.place(x=300, y=60, width=160, height=30)
@@ -291,6 +297,7 @@ def static_ip():  # Enables setting a static IP address
     static_dns_input.place(x=300, y=270, width=160, height=30)
 
     testbutton.place(x=500, y=100)  # To be replaced
+    reload_dhcp_button.place(x=500, y=150)
 
     close_static_button = Button(static_window, command=static_window.destroy, text="X", background="red")
     close_static_button.place(x=765, y=5, height=30, width=30)
@@ -301,8 +308,7 @@ Main = MainSettings()
 root.title("EtherView Analyzer")
 root.focus_force()
 root.geometry("800x480")
-root.attributes("-fullscreen", True) # Uncomment to put fullscreen
-
+root.attributes("-fullscreen", True)
 ip_info = ttk.Label(root, font=10, padding=10, background="#FFFFFF", relief="sunken")
 # Bottom of screen
 time()

@@ -48,7 +48,7 @@ def get_iface_speed(iface):  # Gets the reported speed of the interface the Rasp
         speed = subprocess.getstatusoutput("ethtool " + iface + " | grep Speed")
         speed = str(speed[1])
         speed = speed.split(" ")
-        return speed[5]
+        return speed[1]
 
     except IndexError:
         return "N/A"
@@ -99,7 +99,7 @@ def get_internet_speed():  # Checks connectivity to speedtest.net. Then output t
 
 
 def dhcp_reload(iface):  # Requests a new DHCP lease
-    rel = subprocess.getstatusoutput("dhclient -r %s && sudo dhclient %s" % (iface, iface))
+    rel = subprocess.getstatusoutput("sudo systemctl restart dhcpcd" % (iface, iface))
     # print("Reloading dhcp...")
 
     return rel[1]
@@ -121,6 +121,7 @@ def iperf_client(host):
 
 
 def change_ip(interface, ip, mask, gateway, dns):
+    subprocess.getstatusoutput("sudo cp /etc/dhcpd.conf /etc/dhcpd.conf.old")
     oldfile = open("/etc/dhcpcd.conf", "r")
     data = str(oldfile.readline())
     oldfile.close()
@@ -131,6 +132,9 @@ def change_ip(interface, ip, mask, gateway, dns):
     file.write(data)
     file.write(change)
     file.close()
-
     os.system("sudo mv dhcpcd.conf /etc")
-    os.system("sudo service dhcpd restart")
+    os.system("sudo systemctl restart dhcpcd")
+
+
+def restore_dhcp():
+    subprocess.getstatusoutput("sudo mv /etc/dhcpcd.conf.old /etc/dhcpcd.conf && sudo systemctl restart dhcpcd")
